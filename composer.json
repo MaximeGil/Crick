@@ -1,0 +1,11 @@
+{
+    "require": {
+        "silex/silex": "~1.3",
+		"twig/twig": "^1.22",
+		"willdurand/negotiation": "~1.0",
+		"kphoen/negotiation-service-provider": "^1.0",
+		"willdurand/stack-negotiation": "^1.0",
+		"stack/builder": "~1.0",
+		"stack/run": "~1.0"
+    }
+}
