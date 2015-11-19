@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fe6ae862d7a2d2d23a7e35411ad31416",
-    "content-hash": "cd481ae55bc5c33b3c584a104a3e415d",
+    "hash": "f86d3c1ebbab6526516a86c020adb4d4",
+    "content-hash": "e052e0d716fed57bd8dbf91258c3685b",
     "packages": [
         {
             "name": "kphoen/negotiation-service-provider",
@@ -94,6 +94,222 @@
                 "dependency injection"
             ],
             "time": "2013-11-22 08:30:29"
+        },
+        {
+            "name": "pomm-project/cli",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pomm-project/Cli.git",
+                "reference": "68521a79a21a2feba0957cec7529e534f0c6b29a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pomm-project/Cli/zipball/68521a79a21a2feba0957cec7529e534f0c6b29a",
+                "reference": "68521a79a21a2feba0957cec7529e534f0c6b29a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pgsql": "*",
+                "php": ">=5.4.4",
+                "pomm-project/foundation": "2.0.*@dev",
+                "pomm-project/model-manager": "2.0.*@dev",
+                "psr/log": "~1.0",
+                "symfony/console": "~2.5"
+            },
+            "require-dev": {
+                "atoum/atoum": "dev-master",
+                "symfony/filesystem": "~2.5"
+            },
+            "bin": [
+                "bin/pomm.php"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PommProject\\Cli\\": "sources/lib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Grégoire HUBERT",
+                    "email": "hubert.greg@gmail.com",
+                    "homepage": "http://www.pomm-project.org"
+                }
+            ],
+            "description": "Command line for Pomm.",
+            "homepage": "http://www.pomm-project.org",
+            "keywords": [
+                "cli",
+                "database",
+                "pomm",
+                "postgresql"
+            ],
+            "time": "2015-10-11 21:34:46"
+        },
+        {
+            "name": "pomm-project/foundation",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pomm-project/Foundation.git",
+                "reference": "0fd87e5e72a3ffb27410d6a71684f3cc3ef82e96"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pomm-project/Foundation/zipball/0fd87e5e72a3ffb27410d6a71684f3cc3ef82e96",
+                "reference": "0fd87e5e72a3ffb27410d6a71684f3cc3ef82e96",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pgsql": "*",
+                "php": ">=5.4.4",
+                "psr/log": "~1.0"
+            },
+            "require-dev": {
+                "atoum/atoum": "dev-master"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PommProject\\Foundation\\": "sources/lib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Grégoire HUBERT",
+                    "email": "hubert.greg@gmail.com",
+                    "homepage": "http://www.coolkeums.org"
+                }
+            ],
+            "description": "Pomm connection manager for Postgresql",
+            "homepage": "http://www.pomm-project.org",
+            "keywords": [
+                "database",
+                "framework",
+                "pomm",
+                "postgresql"
+            ],
+            "time": "2015-11-16 08:17:58"
+        },
+        {
+            "name": "pomm-project/model-manager",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pomm-project/ModelManager.git",
+                "reference": "0599edd21dfd75a68903d1a61ce1e5b85357f869"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pomm-project/ModelManager/zipball/0599edd21dfd75a68903d1a61ce1e5b85357f869",
+                "reference": "0599edd21dfd75a68903d1a61ce1e5b85357f869",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pgsql": "*",
+                "php": ">=5.4.4",
+                "pomm-project/foundation": "2.0.*@dev",
+                "psr/log": "~1.0"
+            },
+            "require-dev": {
+                "atoum/atoum": "dev-master"
+            },
+            "suggest": {
+                "pomm-project/cli": "dev-master"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PommProject\\ModelManager\\": "sources/lib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Grégoire HUBERT",
+                    "email": "hubert.greg@gmail.com",
+                    "homepage": "http://www.pomm-project.org"
+                }
+            ],
+            "description": "PHP Object Model Manager for Postgresql",
+            "homepage": "http://www.pomm-project.org",
+            "keywords": [
+                "database",
+                "orm",
+                "pomm",
+                "postgresql"
+            ],
+            "time": "2015-10-27 19:38:38"
+        },
+        {
+            "name": "pomm-project/pomm-service-provider",
+            "version": "dev-silex-1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pomm-project/pomm-service-provider.git",
+                "reference": "978de026824b31536d9b14b35e69db0b2e9db89c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pomm-project/pomm-service-provider/zipball/978de026824b31536d9b14b35e69db0b2e9db89c",
+                "reference": "978de026824b31536d9b14b35e69db0b2e9db89c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.4",
+                "pomm-project/foundation": "2.0.*@dev",
+                "silex/silex": "1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PommProject\\Silex\\ServiceProvider\\": "sources/lib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Grégoire HUBERT",
+                    "email": "hubert.greg@gmail.com"
+                }
+            ],
+            "description": "Pomm Service Provider for the Silex 1.x microframework.",
+            "homepage": "http://www.pomm-project.org",
+            "keywords": [
+                "pomm",
+                "silex"
+            ],
+            "time": "2015-07-27 19:02:09"
         },
         {
             "name": "psr/log",
@@ -308,6 +524,62 @@
                 "stack"
             ],
             "time": "2013-10-25 14:31:28"
+        },
+        {
+            "name": "symfony/console",
+            "version": "v2.7.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/console.git",
+                "reference": "5efd632294c8320ea52492db22292ff853a43766"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/console/zipball/5efd632294c8320ea52492db22292ff853a43766",
+                "reference": "5efd632294c8320ea52492db22292ff853a43766",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "require-dev": {
+                "psr/log": "~1.0",
+                "symfony/event-dispatcher": "~2.1",
+                "symfony/process": "~2.1"
+            },
+            "suggest": {
+                "psr/log": "For using the console logger",
+                "symfony/event-dispatcher": "",
+                "symfony/process": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.7-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Console\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Console Component",
+            "homepage": "https://symfony.com",
+            "time": "2015-10-20 14:38:46"
         },
         {
             "name": "symfony/debug",
@@ -842,7 +1114,12 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "pomm-project/pomm-service-provider": 20,
+        "pomm-project/cli": 20,
+        "pomm-project/model-manager": 20,
+        "pomm-project/foundation": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
