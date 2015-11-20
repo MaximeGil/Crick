@@ -12,7 +12,7 @@ $app->register(new NegotiationServiceProvider());
 $app->register(new Silex\Provider\TwigServiceProvider(), array('twig.path' => __DIR__ . '/../views'));
 
 $pomm = require __DIR__ . "/../.pomm_cli_bootstrap.php";
-        $users = $pomm['DbGreen']->getModel('\Dbgreen\PublicSchema\UsersModel');
+        $users = $pomm['DbGreen']->getModel('crick\Model\Dbgreen\PublicSchema\UsersModel');
         
 
 $app
