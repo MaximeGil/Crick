@@ -5,7 +5,7 @@
  * generation.
  */
 
-namespace Vendor\Project\Model\Dbgreen\PublicSchema\AutoStructure;
+namespace Dbgreen\PublicSchema\AutoStructure;
 
 use PommProject\ModelManager\Model\RowStructure;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Vendor\Project\Model\Dbgreen\PublicSchema;
+namespace Dbgreen\PublicSchema;
 
 use PommProject\ModelManager\Model\FlexibleEntity;
 

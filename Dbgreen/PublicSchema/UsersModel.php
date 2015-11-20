@@ -1,6 +1,6 @@
 <?php
 
-namespace Vendor\Project\Model\Dbgreen\PublicSchema;
+namespace Dbgreen\PublicSchema;
 
 use PommProject\ModelManager\Model\Model;
 use PommProject\ModelManager\Model\Projection;
@@ -8,8 +8,8 @@ use PommProject\ModelManager\Model\ModelTrait\WriteQueries;
 
 use PommProject\Foundation\Where;
 
-use Vendor\Project\Model\Dbgreen\PublicSchema\AutoStructure\Users as UsersStructure;
-use Vendor\Project\Model\Dbgreen\PublicSchema\Users;
+use Dbgreen\PublicSchema\AutoStructure\Users as UsersStructure;
+use Dbgreen\PublicSchema\Users;
 
 /**
  * UsersModel
@@ -32,6 +32,6 @@ class UsersModel extends Model
     public function __construct()
     {
         $this->structure = new UsersStructure;
-        $this->flexible_entity_class = '\Vendor\Project\Model\Dbgreen\PublicSchema\Users';
+        $this->flexible_entity_class = '\Dbgreen\PublicSchema\Users';
     }
 }
