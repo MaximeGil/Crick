@@ -10,7 +10,8 @@
         "kphoen/negotiation-service-provider": "^1.0",
         "willdurand/stack-negotiation": "^1.0",
         "stack/builder": "~1.0",
-        "stack/run": "~1.0"
+        "stack/run": "~1.0",
+        "symfony/security": "^2.7"
     },
     "require-dev": {
         "symfony/browser-kit": "^2.7",

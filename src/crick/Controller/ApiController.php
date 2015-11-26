@@ -7,10 +7,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class ApiController
-{
-    public function getPong(Request $request, Application $app)
-    {
+class ApiController {
+
+    public function getPong(Request $request, Application $app) {
         $format = $request->attributes->get('_format');
 
         switch ($format) {
@@ -20,4 +19,17 @@ class ApiController
                 return new JsonResponse(array('result' => 'Pong'));
         }
     }
+
+    public function getResult(Request $request, Application $app) {
+        $format = $request->attributes->get('_format');
+        if ($app['security.authorization_checker']->isGranted('admin')) {
+            switch ($format) {
+                case 'html':
+                    return new Response('<h1>Pong</h1>');
+                case 'json':
+                    return new JsonResponse(array('result' => 'Pong'));
+            }
+        }
+    }
+
 }
