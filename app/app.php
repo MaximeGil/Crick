@@ -15,7 +15,7 @@ $app['debug'] = true;
 
 $app->register(new NegotiationServiceProvider());
 $app->register(new Silex\Provider\TwigServiceProvider(), array('twig.path' => __DIR__ . '/../views'));
-
+$app->register(new Silex\Provider\SecurityServiceProvider());
 
 $pomm = require __DIR__ . "/../.pomm_cli_bootstrap.php";
 $users = $pomm['db'];
