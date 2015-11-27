@@ -18,7 +18,15 @@ class UserProvider implements UserProviderInterface {
         $this->conn = $conn;
 
     }
-
+    public function getUsernameForApiKey($apiKey)
+    {
+        $user = $this->conn
+                ->getModel('db\Db\PublicSchema\UsersModel')
+                ->findWhere('pass = $*', array($apiKey));
+        
+        return $user;
+    }
+    
     public function loadUserByUsername($username) {
 
         $user = $this->conn
