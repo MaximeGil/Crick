@@ -1,6 +1,6 @@
 <?php
 
-nameSpace crick\Security\Api;
+namespace crick\Security\Api;
 
 use Symfony\Component\Security\Core\Authentication\SimplePreAuthenticatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+use crick\Security\Provider\UserProvider;
 
 class ApiKeyAuthentificator implements SimplePreAuthenticatorInterface {
 
@@ -28,10 +29,10 @@ class ApiKeyAuthentificator implements SimplePreAuthenticatorInterface {
     }
 
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey) {
-        if (!$userProvider instanceof Provider\ApiKeyUserProvider) {
+        if (!$userProvider instanceof UserProvider) {
             throw new \InvalidArgumentException(
             sprintf(
-                    'The user provider must be an instance of ApiKeyUserProvider (%s was given).', get_class($userProvider)
+                    'The user provider must be an instance of UserProvider (%s was given).', get_class($userProvider)
             )
             );
         }
