@@ -5,9 +5,15 @@ require_once __DIR__ . '/bootstrap.php';
 use KPhoen\Provider\NegotiationServiceProvider;
 use Negotiation\Stack\Negotiation;
 use Symfony\Component\HttpFoundation\RequestMatcher;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use PommProject\ModelManager\Session;
 use crick\Security\Provider\UserProvider;
 use crick\Security\Api\ApiKeyAuthentificator;
+use Symfony\Component\Security\Core\Exception\AuthenticationException,
+    Symfony\Component\Security\Core\Authentication\Provider\SimpleAuthenticationProvider,
+    Symfony\Component\Security\Http\Firewall\SimplePreAuthenticationListener;
+
 
 $app = new Silex\Application();
 $app['debug'] = true;
@@ -49,7 +55,7 @@ $app['security.authentication_listener.pre_auth.factory'] = $app->protect(functi
 $app['security.api_key.param_name'] = 'api_key';
 $app['security.api_key.authenticator'] = $app->share(function() use($app) {
     // ApiKeyAuthenticator from http://symfony.com/doc/current/cookbook/security/api_key_authentication.html
-    return new ApiKeyAuthenticator(
+    return new ApiKeyAuthentificator(
             $app['security.user_provider.api'], $app['security.api_key.param_name'], // The Query var name
             $app['logger']
     );
