@@ -16,23 +16,20 @@ class UserProvider implements UserProviderInterface {
 
     public function __construct(Session $conn) {
         $this->conn = $conn;
-
     }
-    public function getUsernameForApiKey($apiKey)
-    {
+
+    public function getUsernameForApiKey($apiKey) {
         $user = $this->conn
                 ->getModel('db\Db\PublicSchema\UsersModel')
                 ->findWhere('pass = $*', array($apiKey));
-        
+
         return $user;
     }
-    
-    public function loadUserByUsername($username) {
 
+    public function loadUserByUsername($username) {
         $user = $this->conn
                 ->getModel('db\Db\PublicSchema\UsersModel')
                 ->findWhere('name = $*', array(strtolower($username)));
-
         if ($user->isEmpty()) {
             throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $username));
         }
@@ -43,7 +40,6 @@ class UserProvider implements UserProviderInterface {
         if (!$user instanceof User) {
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', get_class($user)));
         }
-
         return $this->loadUserByUsername($user->getUsername());
     }
 
