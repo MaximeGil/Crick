@@ -14,7 +14,6 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException,
     Symfony\Component\Security\Core\Authentication\Provider\SimpleAuthenticationProvider,
     Symfony\Component\Security\Http\Firewall\SimplePreAuthenticationListener;
 
-
 $app = new Silex\Application();
 $app['debug'] = true;
 
@@ -66,11 +65,10 @@ $app['security.authentication_listener.factory.api_key'] = $app['security.authen
 $app->register(new \Silex\Provider\SecurityServiceProvider(), array(
     'security.firewalls' => array(
         'api' => array(
-            'pattern' => '^/',
-            'anonymous' => true,
+            'pattern' => '^/api',
             'stateless' => true,
             'api_key' => true, // Our simple API Key authenticator
-            'users' => $app->share(function () use ($app,$users) {
+            'users' => $app->share(function () use ($app, $users) {
                         return new UserProvider($users);
                     })),
     ),
