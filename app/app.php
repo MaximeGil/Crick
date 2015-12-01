@@ -24,6 +24,7 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array('twig.path' => __
 $pomm = require __DIR__ . "/../.pomm_cli_bootstrap.php";
 $users = $pomm['db'];
 
+
 $app['security.authentication_listener.pre_auth.factory'] = $app->protect(function ($type) use ($app) {
     return $app->protect(function ($name, $options) use ($app, $type) {
 
@@ -74,9 +75,8 @@ $app->register(new \Silex\Provider\SecurityServiceProvider(), array(
     ),
 ));
 
-$app->get('/api', function (Request $request) {
-    return new Response("Hello API");
-});
+$app
+        ->get('/api', 'crick\Controller\ApiController::helloApi');
 
 $app
         ->get('/api', 'crick\Controller\ApiController::getPong');

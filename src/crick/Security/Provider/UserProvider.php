@@ -22,18 +22,34 @@ class UserProvider implements UserProviderInterface {
         $user = $this->conn
                 ->getModel('db\Db\PublicSchema\UsersModel')
                 ->findWhere('pass = $*', array($apiKey));
-
+        
+        foreach($user as $target)
+        {
+            $user = $target['name'];
+        }
         return $user;
     }
 
     public function loadUserByUsername($username) {
+        $name = null;
+        $pass = null;
+        $role= null; 
+        
         $user = $this->conn
                 ->getModel('db\Db\PublicSchema\UsersModel')
-                ->findWhere('name = $*', array(strtolower($username)));
+                ->findWhere('name = $*', array($username));
         if ($user->isEmpty()) {
             throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $username));
         }
-        return new User($user->get('name'), $user->get('pass'), array($user->get('role')), true, true, true, true);
+        
+        foreach($user as $target)
+        {
+            $name = $target['name'];
+            $pass = $target['pass'];
+            $role = $target['role'];
+        }
+
+        return new User($name, $pass, array($role), true, true, true, true);
     }
 
     public function refreshUser(UserInterface $user) {

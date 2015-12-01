@@ -22,13 +22,23 @@ class ApiController {
 
     public function getResult(Request $request, Application $app) {
         $format = $request->attributes->get('_format');
-        if ($app['security.authorization_checker']->isGranted('admin')) {
-            switch ($format) {
-                case 'html':
-                    return new Response('<h1>Pong</h1>');
-                case 'json':
-                    return new JsonResponse(array('result' => 'Pong'));
-            }
+
+        switch ($format) {
+            case 'html':
+                return new Response('<h1>Pong</h1>');
+            case 'json':
+                return new JsonResponse(array('result' => 'Pong'));
+        }
+    }
+
+    public function helloApi(Request $request, Application $app) {
+        $format = $request->attributes->get('_format');
+
+        switch ($format) {
+            case 'html':
+                return new Response('<h1>Hello API</h1>');
+            case 'json':
+                return new JsonResponse(array('result' => 'Hello API'));
         }
     }
 
