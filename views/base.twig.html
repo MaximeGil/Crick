@@ -38,14 +38,14 @@
 
                         </button>
 
-                        <a class="navbar-brand" href="">Crick</a>
+                        <a class="navbar-brand" href="{{ app.request.basepath }}/index.php">Crick</a>
 
                     </div>
 
                     <div class="collapse navbar-collapse" id="navbar-collapse-target">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="#">Home</a></li>
-                            <li><a href="../web/index.php/register">Register</a></li>
+                            <li class="active"><a href="{{ app.request.basepath }}/index.php">Home</a></li>
+                            <li><a href="{{ app.request.basepath }}/index.php/register">Register</a></li>
                             <li><a href="#contact">Contact</a></li>
                         </ul>
 
