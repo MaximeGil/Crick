@@ -3,13 +3,9 @@
 namespace db\Db\PublicSchema;
 
 use PommProject\ModelManager\Model\Model;
-use PommProject\ModelManager\Model\Projection;
 use PommProject\ModelManager\Model\ModelTrait\WriteQueries;
 
-use PommProject\Foundation\Where;
-
 use db\Db\PublicSchema\AutoStructure\Users as UsersStructure;
-use db\Db\PublicSchema\Users;
 
 /**
  * UsersModel

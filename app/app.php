@@ -4,89 +4,57 @@ require_once __DIR__ . '/bootstrap.php';
 
 use KPhoen\Provider\NegotiationServiceProvider;
 use Negotiation\Stack\Negotiation;
-use Symfony\Component\HttpFoundation\RequestMatcher;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use PommProject\ModelManager\Session;
 use crick\Security\Provider\UserProvider;
-use crick\Security\Api\ApiKeyAuthentificator;
-use Symfony\Component\Security\Core\Exception\AuthenticationException,
-    Symfony\Component\Security\Core\Authentication\Provider\SimpleAuthenticationProvider,
-    Symfony\Component\Security\Http\Firewall\SimplePreAuthenticationListener;
 
 $app = new Silex\Application();
+
+/*---------------------------------------------------------------------------*/
+// Config
+
 $app['debug'] = true;
 
+/*---------------------------------------------------------------------------*/
+// Providers
 
 $app->register(new NegotiationServiceProvider());
-$app->register(new Silex\Provider\TwigServiceProvider(), array('twig.path' => __DIR__ . '/../views'));
+$app->register(new Silex\Provider\TwigServiceProvider(), [
+    'twig.path' => __DIR__ . '/../views',
+]);
 
-$pomm = require __DIR__ . "/../.pomm_cli_bootstrap.php";
+include __DIR__ . '/security.php';
+
+$pomm  = require __DIR__ . '/../.pomm_cli_bootstrap.php';
 $users = $pomm['db'];
 
-
-$app['security.authentication_listener.pre_auth.factory'] = $app->protect(function ($type) use ($app) {
-    return $app->protect(function ($name, $options) use ($app, $type) {
-
-                $app['security.authentication_listener.' . $name . '.' . $type] = $app->share(function () use ($app, $name, $options, $type) {
-                    return new SimplePreAuthenticationListener(
-                            $app['security'], $app['security.authentication_manager'], $name, $app['security.' . $type . '.authenticator'], $app['logger']
-                    );
-                });
-
-                $app['security.authentication_provider.' . $name . '.' . $type] = $app->share(function () use ($app, $name, $type) {
-                    return new SimpleAuthenticationProvider(
-                            $app['security.' . $type . '.authenticator'], $app['security.user_provider.' . $name], $name
-                    );
-                });
-
-                return array(
-                    'security.authentication_provider.' . $name . '.' . $type,
-                    'security.authentication_listener.' . $name . '.' . $type,
-                    null,
-                    'pre_auth',
-                );
-            });
-});
-
-/**
- * Add an API key authenticator that looks at the `api_key` query var.
- */
 $app['security.api_key.param_name'] = 'api_key';
-$app['security.api_key.authenticator'] = $app->share(function() use($app) {
-    // ApiKeyAuthenticator from http://symfony.com/doc/current/cookbook/security/api_key_authentication.html
-    return new ApiKeyAuthentificator(
-            $app['security.user_provider.api'], $app['security.api_key.param_name'], // The Query var name
-            $app['logger']
-    );
+$app['security.orm.user_provider']  = $app->share(function () use ($app, $users) {
+    return new UserProvider($users);
 });
-$app['security.authentication_listener.factory.api_key'] = $app['security.authentication_listener.pre_auth.factory']('api_key');
 
-
-$app->register(new \Silex\Provider\SecurityServiceProvider(), array(
-    'security.firewalls' => array(
-        'api' => array(
-            'pattern' => '^/api',
+$app->register(new \Silex\Provider\SecurityServiceProvider(), [
+    'security.firewalls' => [
+        'api' => [
+            'pattern'   => '^/api',
             'stateless' => true,
-            'api_key' => true, // Our simple API Key authenticator
-            'users' => $app->share(function () use ($app, $users) {
-                        return new UserProvider($users);
-                    })),
-    ),
-));
+            'api_key'   => true, // Our simple API Key authenticator
+            'anonymous' => true,
+            'users'     => $app['security.orm.user_provider'],
+        ],
+    ],
+]);
 
-$app
-        ->get('/api', 'crick\Controller\ApiController::helloApi');
+/*---------------------------------------------------------------------------*/
+// Controllers
 
-$app
-        ->get('/api', 'crick\Controller\ApiController::getPong');
-$app
-        ->get('/register', 'crick\Controller\PageController::getRegisterPage');
-$app
-        ->get('/', 'crick\Controller\PageController::getHelloWorld');
+$app->get('/', 'crick\Controller\PageController::getHelloWorld');
 
+$app->get('/register', 'crick\Controller\PageController::getRegisterPage');
 
-$app
-        ->get('/api/ping', 'crick\Controller\ApiController::getPong');
+$app->get('/api/ping', 'crick\Controller\ApiController::getPongAction');
 
-return $app = new Negotiation($app, null, null, null, ['format_priorities' => ['html', 'json']]);
+/*---------------------------------------------------------------------------*/
+// Stack (+ content negotiation)
+
+return new Negotiation($app, null, null, null, [
+    'format_priorities' => [ 'html', 'json' ]
+]);
