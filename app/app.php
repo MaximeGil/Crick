@@ -80,9 +80,10 @@ $app
 
 $app
         ->get('/api', 'crick\Controller\ApiController::getPong');
-
 $app
-        ->get('/', 'crick\Controller\ApiController::getPong');
+        ->get('/register', 'crick\Controller\PageController::getRegisterPage');
+$app
+        ->get('/', 'crick\Controller\PageController::getHelloWorld');
 
 
 $app

@@ -1,14 +1,9 @@
-<!doctype html>
-<html>
-<head>
-	<meta charset="utf-8"/>
-	<title> Hello World </title>
-</head>
+{% extends "base.html" %}
 
-<body>
+{% block content %}
+<h1> Hello World! </h1>
 
-	<h1> Hello World </h1>
+<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu suscipit erat, et dignissim justo. Nullam bibendum lorem quis tempor fermentum. Quisque ornare egestas lorem, quis gravida justo bibendum ut. Duis auctor eget neque in eleifend. Morbi iaculis pulvinar ex vel faucibus. Fusce sapien odio, hendrerit interdum iaculis et, volutpat id mauris. Vivamus condimentum fermentum odio, pulvinar hendrerit augue rutrum eleifend. Integer elementum fringilla magna.
 
-
-</body>
-</html>
+    Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean at luctus turpis. Proin viverra malesuada libero, nec convallis velit dapibus et. Phasellus laoreet consectetur cursus. Nam fermentum nibh lorem, eget efficitur quam interdum interdum. Nam venenatis metus mi, nec accumsan diam rutrum in. Proin dapibus tristique ex, vitae tempor turpis euismod eget. Aliquam sollicitudin mollis orci in consequat. Etiam enim lorem, porttitor sodales gravida non, mattis iaculis nisl. Ut sit amet mi est. </p>
+{% endblock %}
