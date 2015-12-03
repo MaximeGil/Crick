@@ -8,59 +8,59 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\User;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
-use PommProject\Foundation\Pomm;
 
-class UserProvider implements UserProviderInterface {
+class UserProvider implements UserProviderInterface
+{
+    private $session;
 
-    private $conn;
-
-    public function __construct(Session $conn) {
-        $this->conn = $conn;
+    public function __construct(Session $session)
+    {
+        $this->session = $session;
     }
 
-    public function getUsernameForApiKey($apiKey) {
-        $user = $this->conn
+    public function getUsernameForApiKey($apiKey)
+    {
+        $users = $this->session
                 ->getModel('db\Db\PublicSchema\UsersModel')
                 ->findWhere('pass = $*', array($apiKey));
-        
-        foreach($user as $target)
-        {
-            $user = $target['name'];
+
+        if ($users->isEmpty()) {
+            throw new UsernameNotFoundException(sprintf('Cannot find user for API key = "%s"', $apiKey));
         }
-        return $user;
+
+        return $users->get(0)->getName();
     }
 
-    public function loadUserByUsername($username) {
-        $name = null;
-        $pass = null;
-        $role= null; 
-        
-        $user = $this->conn
-                ->getModel('db\Db\PublicSchema\UsersModel')
-                ->findWhere('name = $*', array($username));
-        if ($user->isEmpty()) {
+    public function loadUserByUsername($username)
+    {
+        $users = $this->session
+            ->getModel('db\Db\PublicSchema\UsersModel')
+            ->findWhere('name = $*', [ $username ]);
+
+        if ($users->isEmpty()) {
             throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $username));
         }
-        
-        foreach($user as $target)
-        {
-            $name = $target['name'];
-            $pass = $target['pass'];
-            $role = $target['role'];
-        }
 
-        return new User($name, $pass, array($role), true, true, true, true);
+        $user = $users->get(0);
+
+        return new User(
+            $user['name'],
+            $user['pass'],
+            $user['role'] ? [ $user['role'] ] : []
+        );
     }
 
-    public function refreshUser(UserInterface $user) {
+    public function refreshUser(UserInterface $user)
+    {
         if (!$user instanceof User) {
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', get_class($user)));
         }
+
         return $this->loadUserByUsername($user->getUsername());
     }
 
-    public function supportsClass($class) {
+    public function supportsClass($class)
+    {
         return $class === 'Symfony\Component\Security\Core\User\User';
     }
-
 }
