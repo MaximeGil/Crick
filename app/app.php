@@ -36,11 +36,14 @@ $app->register(new Silex\Provider\TranslationServiceProvider(), array(
 include __DIR__ . '/security.php';
 
 $pomm = require __DIR__ . '/../.pomm_cli_bootstrap.php';
-$users = $pomm['db'];
+$query = $pomm['db'];
 
 $app['security.api_key.param_name'] = 'api_key';
-$app['security.orm.user_provider'] = $app->share(function () use ($app, $users) {
-    return new UserProvider($users);
+$app['security.orm.user_provider'] = $app->share(function () use ($app, $query) {
+    return new UserProvider($query);
+});
+$app['db'] = $app->share(function () use ($app, $query) {
+    return $query;
 });
 
 $app->register(new \Silex\Provider\SecurityServiceProvider(), [

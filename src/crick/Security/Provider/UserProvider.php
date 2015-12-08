@@ -46,7 +46,7 @@ class UserProvider implements UserProviderInterface
         return new User(
             $user['emailuser'],
             $user['apiuser'],
-            $user['roleuser'] ? [$user['roleuser']] : []
+            $user['role'] ? [$user['role']] : []
         );
     }
 

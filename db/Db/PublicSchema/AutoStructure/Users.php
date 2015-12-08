@@ -35,12 +35,12 @@ class Users extends RowStructure
     {
         $this
             ->setRelation('public.users')
-            ->setPrimaryKey(['iduser'])
-            ->addField('iduser', 'int4')
+            ->setPrimaryKey(['uuid'])
+            ->addField('uuid', 'uuid')
             ->addField('emailuser', 'varchar')
             ->addField('passworduser', 'varchar')
+            ->addField('role', 'varchar')
             ->addField('apiuser', 'varchar')
-            ->addField('roleuser', 'varchar')
             ;
     }
 }

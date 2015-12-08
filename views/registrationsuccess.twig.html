@@ -1,0 +1,13 @@
+
+{% extends "base.twig.html" %}
+{% block title %} Registration Success{% endblock %}
+{% block content %}
+<h1> Congratulations! </h1>
+
+<p> Here is your API Key, save her! </p>
+
+<p class="flashkey">
+	{{ api_key }}
+</p>
+
+{% endblock %}

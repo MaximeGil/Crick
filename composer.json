@@ -17,7 +17,8 @@
         "symfony/config": "^3.0",
         "symfony/translation": "^3.0",
         "symfony/security-csrf": "^3.0",
-        "symfony/twig-bridge": "^3.0"
+        "symfony/twig-bridge": "^3.0",
+        "ramsey/uuid": "^3.0"
  },
     "require-dev": {
         "symfony/browser-kit": "^2.7",
