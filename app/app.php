@@ -21,12 +21,12 @@ $app['debug'] = true;
 /* --------------------------------------------------------------------------- */
 // Providers
 
-$app->register(new FormServiceProvider());
 $app->register(new NegotiationServiceProvider());
 $app->register(new Silex\Provider\TwigServiceProvider(), [
     'twig.path' => __DIR__ . '/../views',
 ]);
 
+$app->register(new FormServiceProvider());
 $app->register(new Silex\Provider\ValidatorServiceProvider());
 $app->register(new Silex\Provider\TranslationServiceProvider(), array(
     'translator.domains' => array(),
@@ -42,6 +42,18 @@ $app['security.api_key.param_name'] = 'api_key';
 $app['security.orm.user_provider'] = $app->share(function () use ($app, $users) {
     return new UserProvider($users);
 });
+
+$app->register(new \Silex\Provider\SecurityServiceProvider(), [
+    'security.firewalls' => [
+        'api' => [
+            'pattern'   => '^/api',
+            'stateless' => true,
+            'api_key'   => true, // Our simple API Key authenticator
+            'anonymous' => true,
+            'users'     => $app['security.orm.user_provider'],
+        ],
+    ],
+]);
 
 /* --------------------------------------------------------------------------- */
 // Security Rules

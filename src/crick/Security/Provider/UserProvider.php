@@ -22,20 +22,20 @@ class UserProvider implements UserProviderInterface
     {
         $users = $this->session
                 ->getModel('db\Db\PublicSchema\UsersModel')
-                ->findWhere('pass = $*', array($apiKey));
+                ->findWhere('apiuser = $*', array($apiKey));
 
         if ($users->isEmpty()) {
             throw new UsernameNotFoundException(sprintf('Cannot find user for API key = "%s"', $apiKey));
         }
 
-        return $users->get(0)->getName();
+        return $users->get(0)->getEmailuser();
     }
 
     public function loadUserByUsername($username)
     {
         $users = $this->session
             ->getModel('db\Db\PublicSchema\UsersModel')
-            ->findWhere('name = $*', [$username]);
+            ->findWhere('emailuser = $*', [$username]);
 
         if ($users->isEmpty()) {
             throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $username));
@@ -44,9 +44,9 @@ class UserProvider implements UserProviderInterface
         $user = $users->get(0);
 
         return new User(
-            $user['name'],
-            $user['pass'],
-            $user['role'] ? [$user['role']] : []
+            $user['emailuser'],
+            $user['apiuser'],
+            $user['roleuser'] ? [$user['roleuser']] : []
         );
     }
 
