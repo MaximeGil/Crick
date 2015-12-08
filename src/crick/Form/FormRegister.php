@@ -9,19 +9,20 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 /**
- * Description of FormRegister
+ * Description of FormRegister.
  *
  * @author maxime
  */
-class FormRegister {
-
-    public function createForm(Application $app) {
+class FormRegister
+{
+    public function createForm(Application $app)
+    {
         $form = $app['form.factory']->createBuilder()
                 ->add('email', TextType::class, array(
-                    'constraints' => array(new Assert\NotBlank(), new Assert\Email())))
+                    'constraints' => array(new Assert\NotBlank(), new Assert\Email()), ))
                 ->add('password', RepeatedType::class, array('constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 5))), 'type' => PasswordType::class))
                 ->getForm();
+
         return $form;
     }
-
 }

@@ -1,15 +1,11 @@
 <?php
 
-require_once __DIR__ . '/bootstrap.php';
+require_once __DIR__.'/bootstrap.php';
 
 use KPhoen\Provider\NegotiationServiceProvider;
 use Negotiation\Stack\Negotiation;
 use crick\Security\Provider\UserProvider;
-use Symfony\Component\HttpFoundation\Request;
 use Silex\Provider\FormServiceProvider;
-use Symfony\Component\Validator\Constraints as Assert;
-use crick\Form\FormRegister; 
-
 
 $app = new Silex\Application();
 
@@ -23,7 +19,7 @@ $app['debug'] = true;
 
 $app->register(new NegotiationServiceProvider());
 $app->register(new Silex\Provider\TwigServiceProvider(), [
-    'twig.path' => __DIR__ . '/../views',
+    'twig.path' => __DIR__.'/../views',
 ]);
 
 $app->register(new FormServiceProvider());
@@ -32,10 +28,9 @@ $app->register(new Silex\Provider\TranslationServiceProvider(), array(
     'translator.domains' => array(),
 ));
 
+include __DIR__.'/security.php';
 
-include __DIR__ . '/security.php';
-
-$pomm = require __DIR__ . '/../.pomm_cli_bootstrap.php';
+$pomm = require __DIR__.'/../.pomm_cli_bootstrap.php';
 $query = $pomm['db'];
 
 $app['security.api_key.param_name'] = 'api_key';
@@ -49,11 +44,11 @@ $app['db'] = $app->share(function () use ($app, $query) {
 $app->register(new \Silex\Provider\SecurityServiceProvider(), [
     'security.firewalls' => [
         'api' => [
-            'pattern'   => '^/api',
+            'pattern' => '^/api',
             'stateless' => true,
-            'api_key'   => true, // Our simple API Key authenticator
+            'api_key' => true, // Our simple API Key authenticator
             'anonymous' => true,
-            'users'     => $app['security.orm.user_provider'],
+            'users' => $app['security.orm.user_provider'],
         ],
     ],
 ]);

@@ -10,5 +10,4 @@ class PageController
     {
         return $app['twig']->render('hello.twig.html');
     }
-
 }
