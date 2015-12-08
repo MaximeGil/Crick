@@ -11,8 +11,8 @@ class ApiController
 {
     public function getPongAction(Request $request, Application $app)
     {
-        $format   = $request->attributes->get('_format');
-        $user     = $app['security']->getToken()->getUser();
+        $format = $request->attributes->get('_format');
+        $user = $app['security']->getToken()->getUser();
         $username = is_object($user) ? $user->getUsername() : $user;
 
         switch ($format) {
@@ -21,7 +21,7 @@ class ApiController
             case 'json':
                 return new JsonResponse([
                     'username' => $username,
-                    'message'  => 'pong'
+                    'message' => 'pong',
                 ]);
         }
     }

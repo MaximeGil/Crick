@@ -1,19 +1,18 @@
 {% extends "base.twig.html" %}
-
+{% block title %} Register{% endblock %}
 {% block content %}
 <h1> Register </h1>
 
-<p><form role="form">
+<p>
+<form action="{{ app.request.basepath }}/index.php/register" method="post">
     <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" class="form-control" id="email" placeholder="Enter email">
+            {{ form_errors(form) }}
+            {{ form_row(form.email, {'attr' : {'class' : 'form-control', 'type' : 'password'}, 'label' : 'Email address' } )  }}
+            {{ form_row(form.password.first, {'attr' : {'class' : 'form-control'}, 'label' : 'Password' } )  }}
+            {{ form_row(form.password.second, {'attr' : {'class' : 'form-control'}, 'label' : 'Repeat Password' } )  }}
+            {{ form_rest(form) }}
     </div>
-    <div class="form-group">
-        <label for="pwd">Password:</label>
-        <input type="password" class="form-control" id="pwd" placeholder="Enter password">
-    </div>
-
-    <button type="submit" class="btn btn-default">Register</button>
+    <button type="submit" class="btn btn-default">Submit</button>
 </form>
 </p>
 

@@ -4,11 +4,10 @@ namespace db\Db\PublicSchema;
 
 use PommProject\ModelManager\Model\Model;
 use PommProject\ModelManager\Model\ModelTrait\WriteQueries;
-
 use db\Db\PublicSchema\AutoStructure\Users as UsersStructure;
 
 /**
- * UsersModel
+ * UsersModel.
  *
  * Model class for table users.
  *
@@ -19,15 +18,13 @@ class UsersModel extends Model
     use WriteQueries;
 
     /**
-     * __construct()
+     * __construct().
      *
      * Model constructor
-     *
-     * @access public
      */
     public function __construct()
     {
-        $this->structure = new UsersStructure;
+        $this->structure = new UsersStructure();
         $this->flexible_entity_class = '\db\Db\PublicSchema\Users';
     }
 }

@@ -35,7 +35,7 @@ class UserProvider implements UserProviderInterface
     {
         $users = $this->session
             ->getModel('db\Db\PublicSchema\UsersModel')
-            ->findWhere('name = $*', [ $username ]);
+            ->findWhere('name = $*', [$username]);
 
         if ($users->isEmpty()) {
             throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $username));
@@ -46,7 +46,7 @@ class UserProvider implements UserProviderInterface
         return new User(
             $user['name'],
             $user['pass'],
-            $user['role'] ? [ $user['role'] ] : []
+            $user['role'] ? [$user['role']] : []
         );
     }
 

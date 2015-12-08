@@ -11,9 +11,4 @@ class PageController
         return $app['twig']->render('hello.twig.html');
     }
 
-    public function getRegisterPage(Application $app)
-    {
-        return $app['twig']->render('register.twig.html');
-
-    }
 }
