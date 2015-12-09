@@ -8,4 +8,4 @@ php:
 before_script :
 - composer install --dev
 
-script: phpunit tests/ApiTest.php
+script: phpunit tests/ContentTest.php
