@@ -21,7 +21,7 @@ class ContentTest extends WebTestCase
     public function testContentRegister()
     {
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/contact');
+        $crawler = $client->request('GET', '/register');
         $this->assertTrue($client->getResponse()->isOk());
 
     }
