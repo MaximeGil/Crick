@@ -36,7 +36,7 @@ class UserService implements UserInterface
 
     public function getApiKey()
     {
-    	return $this->getApiKey();
+    	return $this->apikey;
     }
 
     public function isEqualTo(UserInterface $user)

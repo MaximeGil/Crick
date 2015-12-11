@@ -1,0 +1,13 @@
+{% extends "base.twig.html" %}
+
+{% block title %} Profil{% endblock %}
+{% block content %}
+<h1> Profil </h1>
+
+<p> 
+<div class="form-group">
+    <p><label for="username">Username: </label><input class ="form-control" id="username" type="text" value="{{ username }}" readonly></p>
+    <p><label for="password">ApiKey: </label><input class ="form-control" id="apiKey" type="text" value="{{ apikey }}" readonly></p>
+</div>
+</p>
+{% endblock %}

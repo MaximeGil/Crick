@@ -44,8 +44,8 @@
 
                     <div class="collapse navbar-collapse" id="navbar-collapse-target">
                         <ul class="nav navbar-nav">
-                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             <li class="active"><a href="{{ app.request.basepath }}/index.php">Home</a></li>
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             <li><a href="{{ app.request.basepath }}/index.php/profil">Profil</a></li>
                             <li><a href="{{ app.request.basepath }}/index.php/logout">Log out</a></li>
                             {% else %}

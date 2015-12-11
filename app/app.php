@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/bootstrap.php';
+require_once __DIR__ . '/bootstrap.php';
 
 use KPhoen\Provider\NegotiationServiceProvider;
 use Negotiation\Stack\Negotiation;
@@ -16,21 +16,25 @@ $app['debug'] = true;
 
 /* --------------------------------------------------------------------------- */
 // Providers
-
-$app->register(new NegotiationServiceProvider());
-$app->register(new Silex\Provider\TwigServiceProvider(), [
-    'twig.path' => __DIR__.'/../views',
-]);
-
 $app->register(new FormServiceProvider());
+$app->register(new NegotiationServiceProvider());
+$app->register(new Silex\Provider\SessionServiceProvider());
+$app->register(new Silex\Provider\MonologServiceProvider(), array(
+    'monolog.logfile' => 'php://stderr',
+));
+$app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new Silex\Provider\ValidatorServiceProvider());
 $app->register(new Silex\Provider\TranslationServiceProvider(), array(
     'translator.domains' => array(),
 ));
 
-include __DIR__.'/security.php';
+$app->register(new Silex\Provider\TwigServiceProvider(), [
+    'twig.path' => __DIR__ . '/../views',
+]);
 
-$pomm = require __DIR__.'/../.pomm_cli_bootstrap.php';
+include __DIR__ . '/security.php';
+
+$pomm = require __DIR__ . '/../.pomm_cli_bootstrap.php';
 $query = $pomm['db'];
 
 $app['security.api_key.param_name'] = 'api_key';
@@ -43,6 +47,13 @@ $app['db'] = $app->share(function () use ($app, $query) {
 
 $app->register(new \Silex\Provider\SecurityServiceProvider(), [
     'security.firewalls' => [
+        'default' => [
+            'pattern' => '^.*$',
+            'anonymous' => true, 
+            'form' => array('login_path' => '/login', 'check_path' => 'login_check'),
+            'logout' => array('logout_path' => '/logout'), 
+            'users' => $app['security.orm.user_provider'],
+        ],
         'api' => [
             'pattern' => '^/api',
             'stateless' => true,
@@ -65,12 +76,11 @@ $app['security.role_hierarchy'] = array(
 
 /* --------------------------------------------------------------------------- */
 // Controllers
-
 $app->get('/', 'crick\Controller\PageController::getHelloWorld');
-
 $app->get('/api/ping', 'crick\Controller\ApiController::getPongAction');
-
 $app->match('/register', 'crick\Controller\RegisterController::registerAction');
+$app->get('/login', 'crick\Controller\PageController::getLogin');
+$app->get('/profil', 'crick\Controller\ProfilController::getProfil');
 
 /* --------------------------------------------------------------------------- */
 // Stack (+ content negotiation)
