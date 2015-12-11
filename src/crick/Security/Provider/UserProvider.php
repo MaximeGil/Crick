@@ -8,6 +8,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\User;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use crick\Model\UserService;
 
 class UserProvider implements UserProviderInterface
 {
@@ -42,20 +43,22 @@ class UserProvider implements UserProviderInterface
         }
 
         $user = $users->get(0);
-
-        return new User(
+        
+        return new UserService(
             $user['emailuser'],
+            $user['passworduser'],
             $user['apiuser'],
             $user['role'] ? [$user['role']] : []
         );
+
+
     }
 
     public function refreshUser(UserInterface $user)
     {
-        if (!$user instanceof User) {
+        if (!$user instanceof UserService) {
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', get_class($user)));
         }
-
         return $this->loadUserByUsername($user->getUsername());
     }
 

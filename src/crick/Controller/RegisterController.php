@@ -28,16 +28,17 @@ class RegisterController
             $uuid = Uuid::uuid1()->toString();
             $api_key = ApiKeyGenerator::generateKey();
             $api_key = base64_encode($api_key);
+            $password = $app['security.encoder.digest']->encodePassword($data['password'], '');
 
-            $app['db']->getModel('db\Db\PublicSchema\UsersModel')
-            ->createAndSave([
-                'uuid' => $uuid = $uuid,
-                'emailuser' => $data['email'],
-                'passworduser' => $data['password'],
-                'role' => 'ROLE_USER',
-                'apiuser' => $api_key,
+                $app['db']->getModel('db\Db\PublicSchema\UsersModel')
+                ->createAndSave([
+                    'uuid' => $uuid,
+                    'emailuser' => $data['email'],
+                    'passworduser' => $password,
+                    'role' => 'ROLE_USER',
+                    'apiuser' => $api_key,
 
-            ]);
+                ]);
 
             return $app['twig']->render('registrationsuccess.twig.html', array('api_key' => $api_key));
         }
