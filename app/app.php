@@ -47,18 +47,17 @@ $app['db'] = $app->share(function () use ($app, $query) {
 
 $app->register(new \Silex\Provider\SecurityServiceProvider(), [
     'security.firewalls' => [
-        'default' => [
-            'pattern' => '^.*$',
-            'anonymous' => true, 
-            'form' => array('login_path' => '/login', 'check_path' => 'login_check'),
-            'logout' => array('logout_path' => '/logout'), 
-            'users' => $app['security.orm.user_provider'],
-        ],
         'api' => [
             'pattern' => '^/api',
-            'stateless' => true,
-            'api_key' => true, // Our simple API Key authenticator
             'anonymous' => true,
+            'api_key' => true, // Our simple API Key authenticator
+            'users' => $app['security.orm.user_provider'],
+        ],
+        'site' => [
+            'pattern' => '^.*$(?<!api)',
+            'anonymous' => true,
+            'form' => array('login_path' => '/login', 'check_path' => 'login_check'),
+            'logout' => array('logout_path' => '/logout'),
             'users' => $app['security.orm.user_provider'],
         ],
     ],
@@ -69,6 +68,7 @@ $app->register(new \Silex\Provider\SecurityServiceProvider(), [
 
 $app['security.access_rules'] = array(
     array('^/api/ping', 'ROLE_USER'),
+    array('^/api/frames/bulk', 'ROLE_USER'),
 );
 $app['security.role_hierarchy'] = array(
     'ROLE_ADMIN' => array('ROLE_USER'),
@@ -79,8 +79,11 @@ $app['security.role_hierarchy'] = array(
 $app->get('/', 'crick\Controller\PageController::getHelloWorld');
 $app->get('/api/ping', 'crick\Controller\ApiController::getPongAction');
 $app->match('/register', 'crick\Controller\RegisterController::registerAction');
+$app->post('api/frames/bulk', 'crick\Controller\ApiController::postFrame');
 $app->get('/login', 'crick\Controller\PageController::getLogin');
+$app->get('/projects', 'crick\Controller\PageController::getProjects');
 $app->get('/profil', 'crick\Controller\ProfilController::getProfil');
+
 
 /* --------------------------------------------------------------------------- */
 // Stack (+ content negotiation)

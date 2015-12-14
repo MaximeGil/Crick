@@ -5,13 +5,13 @@ namespace db\Db\PublicSchema;
 use PommProject\ModelManager\Model\FlexibleEntity;
 
 /**
- * Users.
+ * Tag
  *
  * Flexible entity for relation
- * public.users
+ * public.tag
  *
  * @see FlexibleEntity
  */
-class Users extends FlexibleEntity
+class Tag extends FlexibleEntity
 {
 }

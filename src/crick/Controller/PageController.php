@@ -18,8 +18,24 @@ class PageController {
         ));
     }
 
-    public function getProfil(Application $app) {
+    public function getProjects(Request $request, Application $app) {
         
+        $username = $app['security']->getToken()->getUser()->getUsername();
+
+        // on récupère l'uuid de l'utilisateur en cours
+        $result = $app['db']
+                ->getModel('db\Db\PublicSchema\UsersModel')
+                ->findUuidByName($username);
+        
+        $uuid = $result->get(0)->getUuid();
+        
+        $result = $app['db']
+                ->getModel('db\Db\PublicSchema\ProjectModel')
+                ->findWhere('uuid = $*', [$uuid]);
+        
+        extract($result);
+        var_dump($result);
+        die();
     }
 
 }

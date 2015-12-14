@@ -13,8 +13,8 @@ use db\Db\PublicSchema\AutoStructure\Users as UsersStructure;
  *
  * @see Model
  */
-class UsersModel extends Model
-{
+class UsersModel extends Model {
+
     use WriteQueries;
 
     /**
@@ -22,9 +22,33 @@ class UsersModel extends Model
      *
      * Model constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->structure = new UsersStructure();
         $this->flexible_entity_class = '\db\Db\PublicSchema\Users';
     }
-}
+
+    public function findUuidByName($emailUser) {
+
+            // step 1
+            $sql = <<<SQL
+select
+uuid
+from
+  :relation
+where
+    emailUser = ':email'
+SQL;
+
+            // step 3
+            $sql = strtr($sql, [
+                ':relation' => $this->getStructure()->getRelation(),
+                ':email' => $emailUser,
+                    ]
+            );
+
+            // step 4
+            return $this->query($sql);
+        }
+
+    }
+    

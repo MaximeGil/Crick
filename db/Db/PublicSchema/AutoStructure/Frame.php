@@ -10,9 +10,9 @@ namespace db\Db\PublicSchema\AutoStructure;
 use PommProject\ModelManager\Model\RowStructure;
 
 /**
- * Users
+ * Frame
  *
- * Structure class for relation public.users.
+ * Structure class for relation public.frame.
  * 
  * Class and fields comments are inspected from table and fields comments.
  * Just add comments in your database and they will appear here.
@@ -22,7 +22,7 @@ use PommProject\ModelManager\Model\RowStructure;
  *
  * @see RowStructure
  */
-class Users extends RowStructure
+class Frame extends RowStructure
 {
     /**
      * __construct
@@ -34,13 +34,12 @@ class Users extends RowStructure
     public function __construct()
     {
         $this
-            ->setRelation('public.users')
-            ->setPrimaryKey(['uuid'])
-            ->addField('uuid', 'uuid')
-            ->addField('emailuser', 'varchar')
-            ->addField('passworduser', 'varchar')
-            ->addField('role', 'varchar')
-            ->addField('apiuser', 'varchar')
+            ->setRelation('public.frame')
+            ->setPrimaryKey(['idframe'])
+            ->addField('idframe', 'int4')
+            ->addField('startframe', 'timestamp')
+            ->addField('stopframe', 'timestamp')
+            ->addField('idproject', 'int4')
             ;
     }
 }
