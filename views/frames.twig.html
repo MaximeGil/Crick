@@ -1,0 +1,23 @@
+{% extends "base.twig.html" %}
+{% block title %} Projects{% endblock %}
+{% block content %}
+<h1> Your frames</h1>
+
+{% for frame in frames %}
+<table border="1px">
+    <tr>
+        <td width="200px" align="center">
+            Start : {{ frame.startframe | date("m/d/Y/ H:m:s") }}
+        </td>
+        <td width="200px" align="center">
+            Stop : {{ frame.stopframe | date("m/d/Y/ H:m:s")}}
+        </td>
+        <td width="400px" align="center">
+            Tags : []
+        </td>
+    </tr>
+</table>
+</br>
+{% endfor %}
+
+{% endblock %}

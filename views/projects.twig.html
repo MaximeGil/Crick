@@ -1,0 +1,20 @@
+{% extends "base.twig.html" %}
+{% block title %} Projects{% endblock %}
+{% block content %}
+<h1> Your projects </h1>
+
+{% for project in projects %}
+<table border="1px">
+    <tr>
+        <td width="400px" align="center">
+            Name : {{ project.nameproject }}
+        </td>
+        <td width="400px" align="center">
+            <a href="{{ app.request.basepath }}/index.php/projects/{{ project.idproject }}"> Access >> </a>
+        </td>
+    </tr>
+
+</table>
+{% endfor %}
+
+{% endblock %}

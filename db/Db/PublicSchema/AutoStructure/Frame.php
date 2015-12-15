@@ -36,7 +36,7 @@ class Frame extends RowStructure
         $this
             ->setRelation('public.frame')
             ->setPrimaryKey(['idframe'])
-            ->addField('idframe', 'int4')
+            ->addField('idframe', 'varchar')
             ->addField('startframe', 'timestamp')
             ->addField('stopframe', 'timestamp')
             ->addField('idproject', 'int4')

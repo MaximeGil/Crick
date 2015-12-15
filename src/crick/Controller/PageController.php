@@ -29,13 +29,23 @@ class PageController {
         
         $uuid = $result->get(0)->getUuid();
         
+        // on récupère les projets de l'utilisateur
         $result = $app['db']
                 ->getModel('db\Db\PublicSchema\ProjectModel')
                 ->findWhere('uuid = $*', [$uuid]);
         
-        extract($result);
-        var_dump($result);
-        die();
+        
+        return $app['twig']->render('projects.twig.html', array('projects' => $result));
+        
+    }
+    
+    public function getProjectById(Request $request, Application $app, $id)
+    {
+        $result = $app['db']
+                ->getModel('db\Db\PublicSchema\FrameModel')
+                ->findWhere('idproject = $*', [$id]);
+        
+        return $app['twig']->render('frames.twig.html', array('frames' => $result));
     }
 
 }

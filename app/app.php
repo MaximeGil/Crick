@@ -82,6 +82,7 @@ $app->match('/register', 'crick\Controller\RegisterController::registerAction');
 $app->post('api/frames/bulk', 'crick\Controller\ApiController::postFrame');
 $app->get('/login', 'crick\Controller\PageController::getLogin');
 $app->get('/projects', 'crick\Controller\PageController::getProjects');
+$app->get('/projects/{id}', 'crick\Controller\PageController::getProjectById');
 $app->get('/profil', 'crick\Controller\ProfilController::getProfil');
 
 
