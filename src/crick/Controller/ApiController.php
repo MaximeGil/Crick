@@ -51,7 +51,7 @@ class ApiController {
                 $result = $app['db']
                         ->getModel('db\Db\PublicSchema\ProjectModel')
                         ->findProjectExist($uuid, $nameProject);
-                var_dump($elements->project);
+
                 if ($result->count() == 0) {
                     // on ajoute le projet
                     $app['db']->getModel('db\Db\PublicSchema\ProjectModel')
@@ -62,59 +62,64 @@ class ApiController {
                     ]);
 
                     // on récupère l'id du projet
+                    try {
+                        $result = $app['db']
+                                ->getModel('db\Db\PublicSchema\ProjectModel')
+                                ->findWhere('name = $*', [$nameProject]);
+                        $idProject = $result->get(0)->getUuid();
 
-                    $result = $app['db']
-                            ->getModel('db\Db\PublicSchema\ProjectModel')
-                            ->findWhere('name = $*', [$nameProject]);
-                    $idProject = $result->get(0)->getUuid();
-
-                    // on ajoute les frames
-                    $app['db']->getModel('db\Db\PublicSchema\FrameModel')
-                            ->createAndSave([
-                                'idframe' => $elements->id,
-                                'startframe' => $elements->start,
-                                'stopframe' => $elements->stop,
-                                'uuidproject' => $idProject,
-                    ]);
-
-                    foreach ($elements->tags as $tag) {
-                        $app['db']->getModel('db\Db\PublicSchema\TagModel')
+                        // on ajoute les frames
+                        $app['db']->getModel('db\Db\PublicSchema\FrameModel')
                                 ->createAndSave([
-                                    'uuid' => Uuid::uuid1()->toString(),
                                     'idframe' => $elements->id,
-                                    'tag' => $tag,
+                                    'startframe' => $elements->start,
+                                    'stopframe' => $elements->stop,
+                                    'uuidproject' => $idProject,
                         ]);
+
+                        foreach ($elements->tags as $tag) {
+                            $app['db']->getModel('db\Db\PublicSchema\TagModel')
+                                    ->createAndSave([
+                                        'uuid' => Uuid::uuid1()->toString(),
+                                        'idframe' => $elements->id,
+                                        'tag' => $tag,
+                            ]);
+                        }
+                    } catch (\PommProject\Foundation\Exception\SqlException $e) {
+                        //no problem
                     }
                 } else {
-                    
+
                     // on récupère l'id du projet
-
-                    $result = $app['db']
-                            ->getModel('db\Db\PublicSchema\ProjectModel')
-                            ->findWhere('name = $*', [$nameProject]);
-                    $idProject = $result->get(0)->getUuid();
-                    $test = "on passe";
-                    var_dump($test);
-                    // on ajoute les frames
-                    $app['db']->getModel('db\Db\PublicSchema\FrameModel')
-                            ->createAndSave([
-                                'idframe' => $elements->id,
-                                'startframe' => $elements->start,
-                                'stopframe' => $elements->stop,
-                                'uuidproject' => $idProject,
-                    ]);
-                     foreach ($elements->tags as $tag) {
-                        $app['db']->getModel('db\Db\PublicSchema\TagModel')
+                    try {
+                        $result = $app['db']
+                                ->getModel('db\Db\PublicSchema\ProjectModel')
+                                ->findWhere('name = $*', [$nameProject]);
+                        $idProject = $result->get(0)->getUuid();
+                        
+                        // on ajoute les frames
+                        $app['db']->getModel('db\Db\PublicSchema\FrameModel')
                                 ->createAndSave([
-                                    'uuid' => Uuid::uuid1()->toString(),
                                     'idframe' => $elements->id,
-                                    'tag' => $tag,
+                                    'startframe' => $elements->start,
+                                    'stopframe' => $elements->stop,
+                                    'uuidproject' => $idProject,
                         ]);
-                }}
-        } 
-                //var_dump($data);
-                return new Response('Success', 201);
-
+                        foreach ($elements->tags as $tag) {
+                            $app['db']->getModel('db\Db\PublicSchema\TagModel')
+                                    ->createAndSave([
+                                        'uuid' => Uuid::uuid1()->toString(),
+                                        'idframe' => $elements->id,
+                                        'tag' => $tag,
+                            ]);
+                        }
+                    } catch (\PommProject\Foundation\Exception\SqlException $e) {
+                        //no problem
+                    }
+                }
+            }
+            //var_dump($data);
+            return new Response('Success', 201);
         }
     }
 
@@ -136,7 +141,8 @@ class ApiController {
                 ->findWhere('uuiduser = $*', [$uuid]);
 
         if ($format == 'json') {
-            return json_encode($result);
+            json_encode($result);
+            return new JsonResponse($result);
         }
     }
 

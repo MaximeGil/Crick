@@ -12,7 +12,7 @@ $app = new Silex\Application();
 /* --------------------------------------------------------------------------- */
 // Config
 
-$app['debug'] = true;
+ $app['debug'] = true;
 
 /* --------------------------------------------------------------------------- */
 // Providers
@@ -86,8 +86,8 @@ $app->match('/register', 'crick\Controller\RegisterController::registerAction');
 
 $app->get('/login', 'crick\Controller\PageController::getLogin');
 
-$app->match('/projects', 'crick\Controller\PageController::getOrCreateProjects');
-$app->get('/projects/{id}', 'crick\Controller\PageController::getProjectById');
+$app->match('/projects', 'crick\Controller\ProjectController::getOrCreateProjects');
+$app->get('/projects/{id}', 'crick\Controller\ProjectController::getProjectById');
 
 $app->get('/profil', 'crick\Controller\ProfilController::getProfil');
 

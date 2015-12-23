@@ -9,41 +9,47 @@
         <th> Stop </th>
         <th> Tags </th>
     </tr>
-<div style="width:40%; height:30%; margin: auto;">
-			<div>
-				<canvas id="canvas" height="500" width="850"></canvas>
-			</div>
-		</div>
+    <div style="width:40%; height:30%; margin: auto;">
+        <div>
+            <canvas id="canvas" height="500" width="850"></canvas>
+        </div>
+    </div>
 
 
-	<script>
-		var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
-		var lineChartData = {
-			labels : ["Days : 1","2","3","4","5","6","7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18","19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29","30", "31"],
-			datasets : [
-				{
-					label: "My First dataset",
-					fillColor : "rgba(220,220,220,0.2)",
-					strokeColor : "rgba(220,220,220,1)",
-					pointColor : "rgba(220,220,220,1)",
-					pointStrokeColor : "#fff",
-					pointHighlightFill : "#fff",
-					pointHighlightStroke : "rgba(220,220,220,1)",
-					data : [24,0,25]
-				},
-
-			]
-		}
-	window.onload = function(){
-		var ctx = document.getElementById("canvas").getContext("2d");
-		window.myLine = new Chart(ctx).Line(lineChartData, {
-			responsive: true
-		});
-	}
-	</script>
+    <script>
+        var randomScalingFactor = function () {
+            return Math.round(Math.random() * 100)
+        };
+        var lineChartData = {
+            labels: ["Days : 1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"],
+            datasets: [
+                {
+                    label: "My First dataset",
+                    fillColor: "rgba(220,220,220,0.2)",
+                    strokeColor: "rgba(220,220,220,1)",
+                    pointColor: "rgba(220,220,220,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(220,220,220,1)",
+                    data: [24, 0, 25]
+                },
+            ]
+        }
+        window.onload = function () {
+            var ctx = document.getElementById("canvas").getContext("2d");
+            window.myLine = new Chart(ctx).Line(lineChartData, {
+                responsive: true
+            });
+        }
+    </script>
+    {% set previous = false %}
     {% for frame in frames %}
 
-
+    {% if previous == frame.idframe %}
+        <button type="button" class="btn btn-primary btn-sm"> {{ frame.tag }} </button>
+    {% else %}
+    </td>
+    </tr>
     <tr>
         <td>
             {{ frame.startframe | date("m/d/Y/ H:m:s") }}
@@ -52,12 +58,13 @@
             {{ frame.stopframe | date("m/d/Y/ H:m:s")}}
         </td>
         <td>
-
+            {% if frame.tag is null %}
+            {% else %}
             <button type="button" class="btn btn-primary btn-sm"> {{ frame.tag }} </button>
-
-         </td>
-            
- 
-    {% endfor %}
+                {% endif %}
+    {% endif %}
+    
+        {% set previous = frame.idframe %}
+        {% endfor %}
 </table>
 {% endblock %}

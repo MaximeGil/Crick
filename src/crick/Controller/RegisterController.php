@@ -9,10 +9,9 @@ use Ramsey\Uuid\Uuid;
 use crick\Service\UserService;
 use crick\Security\Api\ApiKeyGenerator;
 
-class RegisterController
-{
-    public function registerAction(Request $request, Application $app)
-    {
+class RegisterController {
+
+    public function registerAction(Request $request, Application $app) {
         $data = array(
             'email' => 'Your email',
             'password' => 'Your password',
@@ -30,24 +29,29 @@ class RegisterController
             $api_key = ApiKeyGenerator::generateKey();
             $api_key = base64_encode($api_key);
             $password = $app['security.encoder.digest']->encodePassword($data['password'], '');
-
+            
+            try {
                 $app['db']->getModel('db\Db\PublicSchema\UsersModel')
-                ->createAndSave([
-                    'uuid' => $uuid,
-                    'email' => $data['email'],
-                    'password' => $password,
-                    'role' => 'ROLE_USER',
-                    'api' => $api_key,
-
+                        ->createAndSave([
+                            'uuid' => $uuid,
+                            'email' => $data['email'],
+                            'password' => $password,
+                            'role' => 'ROLE_USER',
+                            'api' => $api_key,
                 ]);
-
-
+            } catch (\PommProject\Foundation\Exception\SqlException $e) {
+                return $app['twig']->render('register.twig.html', array('form' => $form->createView(), 'message' => 'Username already use.'));
+            }
+            
             $User = new UserService($data['email'], $password, $api_key, 'ROLE_USER');
             $app['security']->setToken(new \Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken($User, $User->getPassword(), $User->getApiKey(), array('ROLE_USER')));
-            
+
             return $app['twig']->render('registrationsuccess.twig.html', array('api_key' => $api_key));
         }
 
+
+
         return $app['twig']->render('register.twig.html', array('form' => $form->createView()));
     }
+
 }

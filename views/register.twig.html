@@ -3,15 +3,15 @@
 {% block content %}
 <h1>Register</h1>
 
-
-{% if message is defined %}
-    <p>{{ message }}</p>
+<div class="alert alert-danger" role="alert">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  <span class="sr-only">Error:</span>
+  {% if message is defined %}
+    {{ message }}
 {% endif %}
+</div>
 
-{% if is_granted('ROLE_USER') %}
-    <p>Bienvenue {{ app.security.token.user.username }} !</p>
-    <p><a href="{{ path('deconnexion') }}">Déconnexion</a></p>
-{% endif %}
+
 <p>
 <form action="{{ app.request.basepath }}/index.php/register" method="post">
     <div class="form-group">
