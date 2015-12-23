@@ -36,7 +36,7 @@ uuid
 from
   :relation
 where
-    emailUser = ':email'
+    email = ':email'
 SQL;
 
             // step 3

@@ -6,6 +6,7 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Ramsey\Uuid\Uuid;
 
 class ApiController {
 
@@ -50,21 +51,22 @@ class ApiController {
                 $result = $app['db']
                         ->getModel('db\Db\PublicSchema\ProjectModel')
                         ->findProjectExist($uuid, $nameProject);
-
+                var_dump($elements->project);
                 if ($result->count() == 0) {
                     // on ajoute le projet
                     $app['db']->getModel('db\Db\PublicSchema\ProjectModel')
                             ->createAndSave([
-                                'uuid' => $uuid,
-                                'nameproject' => $nameProject,
+                                'uuid' => Uuid::uuid1()->toString(),
+                                'name' => $nameProject,
+                                'uuiduser' => $uuid,
                     ]);
 
                     // on récupère l'id du projet
 
                     $result = $app['db']
                             ->getModel('db\Db\PublicSchema\ProjectModel')
-                            ->findWhere('nameproject = $*', [$nameProject]);
-                    $idProject = $result->get(0)->getIdproject();
+                            ->findWhere('name = $*', [$nameProject]);
+                    $idProject = $result->get(0)->getUuid();
 
                     // on ajoute les frames
                     $app['db']->getModel('db\Db\PublicSchema\FrameModel')
@@ -72,34 +74,69 @@ class ApiController {
                                 'idframe' => $elements->id,
                                 'startframe' => $elements->start,
                                 'stopframe' => $elements->stop,
-                                'idproject' => $idProject,
+                                'uuidproject' => $idProject,
                     ]);
 
-                    // TODO les tags
+                    foreach ($elements->tags as $tag) {
+                        $app['db']->getModel('db\Db\PublicSchema\TagModel')
+                                ->createAndSave([
+                                    'uuid' => Uuid::uuid1()->toString(),
+                                    'idframe' => $elements->id,
+                                    'tag' => $tag,
+                        ]);
+                    }
                 } else {
-
+                    
                     // on récupère l'id du projet
 
                     $result = $app['db']
                             ->getModel('db\Db\PublicSchema\ProjectModel')
-                            ->findWhere('nameproject = $*', [$nameProject]);
-                    $idProject = $result->get(0)->getIdproject();
-
+                            ->findWhere('name = $*', [$nameProject]);
+                    $idProject = $result->get(0)->getUuid();
+                    $test = "on passe";
+                    var_dump($test);
                     // on ajoute les frames
                     $app['db']->getModel('db\Db\PublicSchema\FrameModel')
                             ->createAndSave([
                                 'idframe' => $elements->id,
                                 'startframe' => $elements->start,
                                 'stopframe' => $elements->stop,
-                                'idproject' => $idProject,
+                                'uuidproject' => $idProject,
                     ]);
-                    
-                    // TODO les tags
-                }
-            }
+                     foreach ($elements->tags as $tag) {
+                        $app['db']->getModel('db\Db\PublicSchema\TagModel')
+                                ->createAndSave([
+                                    'uuid' => Uuid::uuid1()->toString(),
+                                    'idframe' => $elements->id,
+                                    'tag' => $tag,
+                        ]);
+                }}
+        } 
+                //var_dump($data);
+                return new Response('Success', 201);
 
-            //var_dump($data);
-            return "ok";
+        }
+    }
+
+    public function getProjects(Request $request, Application $app) {
+        $format = $request->attributes->get('_format');
+        $user = $app['security']->getToken()->getUser();
+        $username = is_object($user) ? $user->getUsername() : $user;
+
+        // on récupère l'uuid de l'utilisateur
+        $result = $app['db']
+                ->getModel('db\Db\PublicSchema\UsersModel')
+                ->findUuidByName($username);
+
+        $uuid = $result->get(0)->getUuid();
+
+        // on récupère les projets de l'utilisateur
+        $result = $app['db']
+                ->getModel('db\Db\PublicSchema\ProjectModel')
+                ->findWhere('uuiduser = $*', [$uuid]);
+
+        if ($format == 'json') {
+            return json_encode($result);
         }
     }
 

@@ -35,10 +35,10 @@ class Project extends RowStructure
     {
         $this
             ->setRelation('public.project')
-            ->setPrimaryKey(['idproject'])
-            ->addField('idproject', 'int4')
+            ->setPrimaryKey(['uuid'])
             ->addField('uuid', 'uuid')
-            ->addField('nameproject', 'varchar')
+            ->addField('name', 'varchar')
+            ->addField('uuiduser', 'uuid')
             ;
     }
 }

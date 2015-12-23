@@ -77,12 +77,18 @@ $app['security.role_hierarchy'] = array(
 /* --------------------------------------------------------------------------- */
 // Controllers
 $app->get('/', 'crick\Controller\PageController::getHelloWorld');
+
 $app->get('/api/ping', 'crick\Controller\ApiController::getPongAction');
-$app->match('/register', 'crick\Controller\RegisterController::registerAction');
+$app->get('/api/projects', 'crick\Controller\ApiController::getProjects');
 $app->post('api/frames/bulk', 'crick\Controller\ApiController::postFrame');
+
+$app->match('/register', 'crick\Controller\RegisterController::registerAction');
+
 $app->get('/login', 'crick\Controller\PageController::getLogin');
-$app->get('/projects', 'crick\Controller\PageController::getProjects');
+
+$app->match('/projects', 'crick\Controller\PageController::getOrCreateProjects');
 $app->get('/projects/{id}', 'crick\Controller\PageController::getProjectById');
+
 $app->get('/profil', 'crick\Controller\ProfilController::getProfil');
 
 

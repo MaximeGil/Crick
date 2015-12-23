@@ -35,10 +35,10 @@ class Tag extends RowStructure
     {
         $this
             ->setRelation('public.tag')
-            ->setPrimaryKey(['idframe', 'idtag'])
-            ->addField('idtag', 'int4')
-            ->addField('idframe', 'int4')
-            ->addField('desctag', 'varchar')
+            ->setPrimaryKey(['idframe', 'uuid'])
+            ->addField('uuid', 'uuid')
+            ->addField('idframe', 'varchar')
+            ->addField('tag', 'varchar')
             ;
     }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace crick\Model;
+namespace crick\Service;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 

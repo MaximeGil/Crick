@@ -31,28 +31,74 @@ class ProjectModel extends Model {
         $this->structure = new ProjectStructure;
         $this->flexible_entity_class = '\db\Db\PublicSchema\Project';
     }
-    
-        public function findProjectExist($uuid, $nameProject) {
 
-            // step 1
-            $sql = <<<SQL
+    public function findProjectExist($uuid, $nameProject) {
+
+        // step 1
+        $sql = <<<SQL
 select
 *
 from
   :relation
 where
-    uuid = ':uuid' AND nameProject= ':name'
+    uuiduser = ':uuid' AND name= ':name'
 SQL;
 
-            // step 3
-            $sql = strtr($sql, [
-                ':relation' => $this->getStructure()->getRelation(),
-                ':uuid' => $uuid,
-                ':name' => $nameProject,
-                    ]
-            );
+        // step 3
+        $sql = strtr($sql, [
+            ':relation' => $this->getStructure()->getRelation(),
+            ':uuid' => $uuid,
+            ':name' => $nameProject,
+                ]
+        );
 
-            // step 4
-            return $this->query($sql);
-        }
+        // step 4
+        return $this->query($sql);
+    }
+
+    public function getProjects($uuid) {
+        $sql = <<<SQL
+select
+project.uuid, project.name, to_char(SUM(stopframe - startframe), 'HH24:MI:SS') as timeperproject
+from
+   project INNER JOIN frame ON (project.uuid = frame.uuidproject)
+where
+    project.uuiduser = ':uuid'
+group by project.uuid;
+                             
+SQL;
+
+        $sql = strtr($sql, [
+            ':relation' => $this->getStructure()->getRelation(),
+            ':uuid' => $uuid,
+            ':frame' => $this->getSession()
+                    ->getModel('db\Db\PublicSchema\FrameModel')
+                    ->getStructure()
+                    ->getRelation(),
+                ]
+     
+                );
+        return $this->query($sql);
+    }
+
+    public function getProjectsInactive($uuid)
+    {
+                $sql = <<<SQL
+select
+uuid, name
+from
+   project
+where
+    uuiduser = ':uuid' AND uuid NOT IN(select uuidproject from frame)
+;
+                             
+SQL;
+
+        $sql = strtr($sql, [
+            ':uuid' => $uuid,
+                ]
+     
+                );
+        return $this->query($sql);
+    }
 }

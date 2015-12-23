@@ -37,10 +37,10 @@ class Users extends RowStructure
             ->setRelation('public.users')
             ->setPrimaryKey(['uuid'])
             ->addField('uuid', 'uuid')
-            ->addField('emailuser', 'varchar')
-            ->addField('passworduser', 'varchar')
+            ->addField('email', 'varchar')
+            ->addField('password', 'varchar')
             ->addField('role', 'varchar')
-            ->addField('apiuser', 'varchar')
+            ->addField('api', 'varchar')
             ;
     }
 }

@@ -1,7 +1,7 @@
 {% extends "base.twig.html" %}
 {% block title %} Home{% endblock %}
 {% block content %}
-<h1> Hello World! </h1>
+<h1> Home</h1>
 
 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
     <p>Welcome {{ app.security.getToken().getUsername }} !</p>

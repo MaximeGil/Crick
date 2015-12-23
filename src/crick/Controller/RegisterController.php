@@ -6,6 +6,7 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use crick\Form\FormRegister;
 use Ramsey\Uuid\Uuid;
+use crick\Service\UserService;
 use crick\Security\Api\ApiKeyGenerator;
 
 class RegisterController
@@ -33,13 +34,17 @@ class RegisterController
                 $app['db']->getModel('db\Db\PublicSchema\UsersModel')
                 ->createAndSave([
                     'uuid' => $uuid,
-                    'emailuser' => $data['email'],
-                    'passworduser' => $password,
+                    'email' => $data['email'],
+                    'password' => $password,
                     'role' => 'ROLE_USER',
-                    'apiuser' => $api_key,
+                    'api' => $api_key,
 
                 ]);
 
+
+            $User = new UserService($data['email'], $password, $api_key, 'ROLE_USER');
+            $app['security']->setToken(new \Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken($User, $User->getPassword(), $User->getApiKey(), array('ROLE_USER')));
+            
             return $app['twig']->render('registrationsuccess.twig.html', array('api_key' => $api_key));
         }
 

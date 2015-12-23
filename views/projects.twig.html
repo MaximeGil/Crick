@@ -1,20 +1,92 @@
 {% extends "base.twig.html" %}
 {% block title %} Projects{% endblock %}
 {% block content %}
+        <script>
+
+            var doughnutData = [
+            {% for project in projects %}
+            {% set time = project.timeperproject | split(':') %}
+            {% set time = time[0] * 60 + time[1] %}
+            {
+            value: {{ time }},
+                    color:'{{ random(['orange', 'red', 'blue', 'yellow', 'green', 'blue', 'purple', 'rose', 'magenta', 'cadetBlue', 'Brown', 'Beige', 'Azure','Aqua']) }}',
+                    highlight: "#DEDEDE",
+                    label: 'Minutes on {{ project.name }}',
+            },
+            {% endfor %}
+            ];
+                    window.onload = function () {
+                    var ctx = document.getElementById("chart-area").getContext("2d");
+                            window.myDoughnut = new Chart(ctx).Doughnut(doughnutData, {responsive : true});
+                    };
+        </script>
+
+<h1>Statistics</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="pstats">Statistics are important , you can now see the time spent per project. With this tool , you can make the best choices and of course, track your time.</div>
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-6">
+
+        <div id="canvas-holder" style="width: 250px; height: 250px;">
+    <canvas id="chart-area" width="150" height="150"/>
+</div>
+    </div>
+</div>
 <h1> Your projects </h1>
 
-{% for project in projects %}
-<table border="1px">
+<table class="table">
     <tr>
-        <td width="400px" align="center">
-            Name : {{ project.nameproject }}
+        <th> Project Name </th>
+        <th> </th>
+    </tr>
+    {% for project in projects %}
+
+
+    <tr>
+        <td>
+            {{ project.name }}
         </td>
-        <td width="400px" align="center">
-            <a href="{{ app.request.basepath }}/index.php/projects/{{ project.idproject }}"> Access >> </a>
+        <td>
+            <a class="btn btn-primary" href="{{ app.request.basepath }}/index.php/projects/{{ project.uuid }}"> Details </a>
         </td>
     </tr>
-
+    {% endfor %}
 </table>
-{% endfor %}
 
+<table class="table">
+    <tr>
+        <th> Empty project (project with no frames)</th>
+        <th> </th>
+    </tr>
+
+
+{% for project in projectsinactive %}
+
+
+    <tr>
+        <td>
+            {{ project.name }}
+        </td>
+        <td>
+            <p class="bg-danger"> You have to push frames for enable this project. </p>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<h2> Create your project </h2>
+<form action="{{ app.request.basepath }}/index.php/projects" method="post" class="form-inline">
+<table class="table">
+        {{ form_errors(form) }}
+        <tr>
+            <td><label for="username">Project Name: </label></td>
+            <td>{{ form_row(form.name, {'attr' : {'class' : 'form-control'}, 'label' : ' ' } )  }}</td>
+            <td>         <button id="submit" type="submit" class="btn btn-primary">Create</button></td>
+        </tr>
+        {{ form_rest(form) }}
+    </div>
+</table>
+</form>
 {% endblock %}

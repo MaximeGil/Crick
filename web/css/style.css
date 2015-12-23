@@ -1,5 +1,6 @@
 body {
   padding-top: 50px;
+  width: 100%;  
 }
 .starter-template {
   padding: 40px 15px;
@@ -15,4 +16,16 @@ background: linear-gradient(to bottom, #e6f0a3 0%,#d2e638 50%,#c3d825 51%,#dbf04
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e6f0a3', endColorstr='#dbf043',GradientType=0 ); /* IE6-9 */
 }
 
+nav{
+    background-color : red; 
+}
+
+.pstats
+{
+  text-align:justify;
+}
+
+#canvas-holder
+{
+ width: 15%;   
 }

@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\User;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
-use crick\Model\UserService;
+use crick\Service\UserService;
 
 class UserProvider implements UserProviderInterface {
 
@@ -21,19 +21,19 @@ class UserProvider implements UserProviderInterface {
     public function getUsernameForApiKey($apiKey) {
         $users = $this->session
                 ->getModel('db\Db\PublicSchema\UsersModel')
-                ->findWhere('apiuser = $*', array($apiKey));
+                ->findWhere('api = $*', array($apiKey));
 
         if ($users->isEmpty()) {
             throw new UsernameNotFoundException(sprintf('Cannot find user for API key = "%s"', $apiKey));
         }
 
-        return $users->get(0)->getEmailuser();
+        return $users->get(0)->getEmail();
     }
 
     public function loadUserByUsername($username) {
         $users = $this->session
                 ->getModel('db\Db\PublicSchema\UsersModel')
-                ->findWhere('emailuser = $*', [$username]);
+                ->findWhere('email = $*', [$username]);
 
         if ($users->isEmpty()) {
             throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $username));
@@ -42,7 +42,7 @@ class UserProvider implements UserProviderInterface {
         $user = $users->get(0);
 
         return new UserService(
-                $user['emailuser'], $user['passworduser'], $user['apiuser'], $user['role'] ? [$user['role']] : []
+                $user['email'], $user['password'], $user['api'], $user['role'] ? [$user['role']] : []
         );
     }
 

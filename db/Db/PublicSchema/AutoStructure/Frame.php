@@ -39,7 +39,7 @@ class Frame extends RowStructure
             ->addField('idframe', 'varchar')
             ->addField('startframe', 'timestamp')
             ->addField('stopframe', 'timestamp')
-            ->addField('idproject', 'int4')
+            ->addField('uuidproject', 'uuid')
             ;
     }
 }
