@@ -19,8 +19,9 @@ $app = new Silex\Application();
 $app->register(new FormServiceProvider());
 $app->register(new NegotiationServiceProvider());
 $app->register(new Silex\Provider\SessionServiceProvider());
+ $app['session.test'] = true;
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
-    'monolog.logfile' => 'php://stderr',
+    'monolog.logfile' => 'logs/log.log',
 ));
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new Silex\Provider\ValidatorServiceProvider());
