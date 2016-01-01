@@ -15,6 +15,7 @@ class UserService implements UserInterface
 	private $apikey;
 	private $roles;
 
+    
     public function __construct($username, $password, $apikey, $roles)
     {
     	$this->username = $username;
@@ -41,7 +42,7 @@ class UserService implements UserInterface
 
     public function isEqualTo(UserInterface $user)
     {
-        if (!$user instanceof User) {
+        if (!$user instanceof UserService) {
             return false;
         }
 

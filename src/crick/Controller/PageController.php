@@ -4,8 +4,7 @@ namespace crick\Controller;
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
-use crick\Form\FormProject;
-use Ramsey\Uuid\Uuid;
+
 
 class PageController {
 
