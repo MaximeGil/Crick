@@ -1,2 +1,2 @@
-    <phpunit bootstrap="tests/bootstrap.php">
+    <phpunit bootstrap="app/bootstrap.php">
     </phpunit>
