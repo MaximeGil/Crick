@@ -3,9 +3,12 @@ php:
   - 5.6
   - 7.0
 
-
+services:
+- postgresql
 
 before_script :
 - composer install --dev
+- psql -c 'create database green;' -U postgres
+- psql green < sources/sql/db.sql
 
 script: phpunit --stderr tests/ContentTest.php
