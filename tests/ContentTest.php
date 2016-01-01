@@ -1,11 +1,13 @@
 <?php
 use Silex\WebTestCase;
-
+use KPhoen\Provider\NegotiationServiceProvider;
+use Negotiation\Stack\Negotiation;
 
 class ContentTest extends WebTestCase
 {
     public function createApplication()
     {
+    	
         $app = require __DIR__.'/../app/app.php';
         return $app;
     }
@@ -15,7 +17,7 @@ class ContentTest extends WebTestCase
         $client = $this->createClient();
         $crawler = $client->request('GET', '/');
         $this->assertTrue($client->getResponse()->isOk());
-        $this->assertCount(1, $crawler->filter('h1:contains("Hello World")'));
+        $this->assertCount(1, $crawler->filter('h1:contains("Home")'));
     }
 
     public function testContentRegister()
