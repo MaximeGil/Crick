@@ -101,4 +101,18 @@ SQL;
                 );
         return $this->query($sql);
     }
+    
+        public function deleteAll() {
+        $sql = <<<SQL
+                DELETE
+                FROM 
+                :relation
+                
+SQL;
+        $sql = strtr($sql, [
+            ':relation' => $this->getStructure()->getRelation(),
+        ]);
+        
+        return $this->query($sql);
+    }
 }

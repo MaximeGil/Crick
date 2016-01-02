@@ -53,9 +53,6 @@ class ApiKeyTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($excepted, $response->getBody());
     }
 
-    protected function tearDown() {
-        $this->query->getModel('db\Db\PublicSchema\UsersModel')
-                ->deleteByPK(['uuid' => $this->uuid]);
-    }
+
 
 }
