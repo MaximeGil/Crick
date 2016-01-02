@@ -35,16 +35,25 @@ class ApiKeyTest extends PHPUnit_Framework_TestCase {
         ]);
     }
 
-
     public function testApiKeyGetPongStatusCode() {
         $response = $this->client->request('GET', 'ping', [ 'headers' => ['Accept' => 'application/json'], 'query' => ['api_key' => $this->api],]);
         $this->assertEquals(200, $response->getStatusCode());
-        echo $response->getBody();
-        $this->flush();
     }
 
-    private function flush() {
+    public function testApiKeyGetPongJson() {
+        $excepted = array("username" => "toto@foo.com", "message" => "pong");
+        $exceptedjson = json_encode($excepted);
+        $response = $this->client->request('GET', 'ping', [ 'headers' => ['Accept' => 'application/json'], 'query' => ['api_key' => $this->api],]);
+        $this->assertEquals($exceptedjson, $response->getBody());
+    }
 
+    public function testApiKeyGetPongHtml() {
+        $excepted = '<h1>pong: '. $this->email .'</h1>';
+        $response = $this->client->request('GET', 'ping', [ 'headers' => ['Accept' => 'text/html'], 'query' => ['api_key' => $this->api],]);
+        $this->assertEquals($excepted, $response->getBody());
+    }
+
+    protected function tearDown() {
         $this->query->getModel('db\Db\PublicSchema\UsersModel')
                 ->deleteByPK(['uuid' => $this->uuid]);
     }
