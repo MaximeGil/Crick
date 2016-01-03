@@ -8,9 +8,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Ramsey\Uuid\Uuid;
 
-class ApiController {
-
-    public function getPongAction(Request $request, Application $app) {
+class ApiController
+{
+    public function getPongAction(Request $request, Application $app)
+    {
         $format = $request->attributes->get('_format');
         $user = $app['security']->getToken()->getUser();
         $username = is_object($user) ? $user->getUsername() : $user;
@@ -26,10 +27,11 @@ class ApiController {
         }
     }
 
-    public function postFrame(Request $request, Application $app) {
+    public function postFrame(Request $request, Application $app)
+    {
         $format = $request->headers->get('Content-Type');
 
-        if ($format == "application/json") {
+        if ($format == 'application/json') {
             // on récupère les données 
             $data = json_decode($request->getContent());
 
@@ -96,7 +98,7 @@ class ApiController {
                                 ->getModel('db\Db\PublicSchema\ProjectModel')
                                 ->findWhere('name = $*', [$nameProject]);
                         $idProject = $result->get(0)->getUuid();
-                        
+
                         // on ajoute les frames
                         $app['db']->getModel('db\Db\PublicSchema\FrameModel')
                                 ->createAndSave([
@@ -114,7 +116,7 @@ class ApiController {
                             ]);
                         }
                     } catch (\PommProject\Foundation\Exception\SqlException $e) {
-                        //no problem
+                        //SILENCE
                     }
                 }
             }
@@ -123,7 +125,8 @@ class ApiController {
         }
     }
 
-    public function getProjects(Request $request, Application $app) {
+    public function getProjects(Request $request, Application $app)
+    {
         $format = $request->attributes->get('_format');
         $user = $app['security']->getToken()->getUser();
         $username = is_object($user) ? $user->getUsername() : $user;
@@ -142,8 +145,8 @@ class ApiController {
 
         if ($format == 'json') {
             json_encode($result);
+
             return new JsonResponse($result);
         }
     }
-
 }

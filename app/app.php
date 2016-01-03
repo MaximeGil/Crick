@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/bootstrap.php';
+require_once __DIR__.'/bootstrap.php';
 
 use KPhoen\Provider\NegotiationServiceProvider;
 use Negotiation\Stack\Negotiation;
@@ -21,7 +21,7 @@ $app->register(new NegotiationServiceProvider());
 $app->register(new Silex\Provider\SessionServiceProvider());
  $app['session.test'] = true;
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
-    'monolog.logfile' => 'logs/log.log',
+    'monolog.logfile' => 'php://stderr',
 ));
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new Silex\Provider\ValidatorServiceProvider());
@@ -30,12 +30,12 @@ $app->register(new Silex\Provider\TranslationServiceProvider(), array(
 ));
 
 $app->register(new Silex\Provider\TwigServiceProvider(), [
-    'twig.path' => __DIR__ . '/../views',
+    'twig.path' => __DIR__.'/../views',
 ]);
 
-include __DIR__ . '/security.php';
+include __DIR__.'/security.php';
 
-$pomm = require __DIR__ . '/../.pomm_cli_bootstrap.php';
+$pomm = require __DIR__.'/../.pomm_cli_bootstrap.php';
 $query = $pomm['db'];
 
 $app['security.api_key.param_name'] = 'api_key';
@@ -91,7 +91,6 @@ $app->match('/projects', 'crick\Controller\ProjectController::getOrCreateProject
 $app->get('/projects/{id}', 'crick\Controller\ProjectController::getProjectById');
 
 $app->get('/profil', 'crick\Controller\ProfilController::getProfil');
-
 
 /* --------------------------------------------------------------------------- */
 // Stack (+ content negotiation)

@@ -1,4 +1,5 @@
 <?php
+
 namespace crick\Service;
 
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -10,39 +11,37 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class UserService implements UserInterface
 {
-	private $username;
-	private $password;
-	private $apikey;
-	private $roles;
+    private $username;
+    private $password;
+    private $apikey;
+    private $roles;
 
-    
     public function __construct($username, $password, $apikey, $roles)
     {
-    	$this->username = $username;
-    	$this->password = $password;
-    	$this->apikey = $apikey;
-    	$this->roles = $roles; 
+        $this->username = $username;
+        $this->password = $password;
+        $this->apikey = $apikey;
+        $this->roles = $roles;
     }
 
     public function getRoles()
     {
-
-    	return $this->roles;
+        return $this->roles;
     }
 
     public function getPassword()
     {
-    	return $this->password;
+        return $this->password;
     }
 
     public function getApiKey()
     {
-    	return $this->apikey;
+        return $this->apikey;
     }
 
     public function isEqualTo(UserInterface $user)
     {
-        if (!$user instanceof UserService) {
+        if (!$user instanceof self) {
             return false;
         }
 
@@ -61,16 +60,16 @@ class UserService implements UserInterface
         return true;
     }
 
-    public function eraseCredentials() {
-        
+    public function eraseCredentials()
+    {
     }
 
-    public function getSalt() {
-        
+    public function getSalt()
+    {
     }
 
-    public function getUsername() {
-        return $this->username; 
+    public function getUsername()
+    {
+        return $this->username;
     }
-
 }

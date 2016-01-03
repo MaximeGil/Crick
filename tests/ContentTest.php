@@ -1,28 +1,27 @@
 <?php
 
 use Silex\WebTestCase;
-use KPhoen\Provider\NegotiationServiceProvider;
-use Negotiation\Stack\Negotiation;
 
-class ContentTest extends WebTestCase {
-
-    public function createApplication() {
-
-        $app = require __DIR__ . '/../app/app.php';
+class ContentTest extends WebTestCase
+{
+    public function createApplication()
+    {
+        $app = require __DIR__.'/../app/app.php';
 
         return $app;
     }
 
     // Test Content Home
 
-    public function testContentHome() {
+    public function testContentHome()
+    {
         $client = $this->createClient();
         $crawler = $client->request('GET', '/');
         $this->assertCount(1, $crawler->filter('h1:contains("Home")'));
     }
 
-    public function testContentHomeWatson() {
-
+    public function testContentHomeWatson()
+    {
         $client = $this->createClient();
         $crawler = $client->request('GET', '/');
         $this->assertCount(1, $crawler->filter('h3:contains("Watson?")'));
@@ -30,25 +29,29 @@ class ContentTest extends WebTestCase {
 
     // Test Content Login
 
-    public function testContentLogin() {
+    public function testContentLogin()
+    {
         $client = $this->createClient();
         $crawler = $client->request('GET', '/login');
         $this->assertCount(1, $crawler->filter('h1:contains("Login")'));
     }
 
-    public function testContentLoginInputUsername() {
+    public function testContentLoginInputUsername()
+    {
         $client = $this->createClient();
         $crawler = $client->request('GET', '/login');
         $this->assertCount(1, $crawler->filter('input[type=text]'));
     }
 
-    public function testContentLoginInputPassword() {
+    public function testContentLoginInputPassword()
+    {
         $client = $this->createClient();
         $crawler = $client->request('GET', '/login');
         $this->assertCount(1, $crawler->filter('input[type=password]'));
     }
 
-    public function testContentLoginButtonSubmit() {
+    public function testContentLoginButtonSubmit()
+    {
         $client = $this->createClient();
         $crawler = $client->request('GET', '/login');
         $this->assertCount(1, $crawler->filter('button[type=submit]'));
@@ -56,28 +59,31 @@ class ContentTest extends WebTestCase {
 
     // Test Content Register
 
-    public function testContentRegister() {
+    public function testContentRegister()
+    {
         $client = $this->createClient();
         $crawler = $client->request('GET', '/register');
         $this->assertCount(1, $crawler->filter('h1:contains("Register")'));
     }
 
-    public function testContentRegisterInputUsername() {
+    public function testContentRegisterInputUsername()
+    {
         $client = $this->createClient();
         $crawler = $client->request('GET', '/register');
         $this->assertCount(1, $crawler->filter('input[type=text]'));
     }
 
-    public function testContentRegisterInputPassword() {
+    public function testContentRegisterInputPassword()
+    {
         $client = $this->createClient();
         $crawler = $client->request('GET', '/register');
         $this->assertCount(2, $crawler->filter('input[type=password]'));
     }
 
-    public function testContentRegisterButtonSubmit() {
+    public function testContentRegisterButtonSubmit()
+    {
         $client = $this->createClient();
         $crawler = $client->request('GET', '/register');
         $this->assertCount(1, $crawler->filter('button[type=submit]'));
     }
-
 }

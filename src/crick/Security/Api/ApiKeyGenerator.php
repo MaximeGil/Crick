@@ -13,9 +13,10 @@ namespace crick\Security\Api;
  *
  * @author maxime
  */
-class ApiKeyGenerator {
-
-    public static function generateKey() {
+class ApiKeyGenerator
+{
+    public static function generateKey()
+    {
         $rand_id = '';
         for ($i = 1; $i <= 60; ++$i) {
             mt_srand((double) microtime() * 1000000);
@@ -26,7 +27,8 @@ class ApiKeyGenerator {
         return $rand_id;
     }
 
-    public static function assign_rand_value($num) {
+    public static function assign_rand_value($num)
+    {
         switch ($num) {
             case '1':
                 $rand_value = 'a';
@@ -248,5 +250,4 @@ class ApiKeyGenerator {
 
         return $rand_value;
     }
-
 }

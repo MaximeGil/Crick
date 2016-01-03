@@ -1,4 +1,5 @@
 <?php
+
 namespace crick\Controller;
 
 use Silex\Application;
@@ -6,10 +7,10 @@ use Symfony\Component\HttpFoundation\Request;
 use crick\Form\FormProject;
 use Ramsey\Uuid\Uuid;
 
-class ProjectController {
-
-    public function getOrCreateProjects(Request $request, Application $app) {
-
+class ProjectController
+{
+    public function getOrCreateProjects(Request $request, Application $app)
+    {
         $username = $app['security']->getToken()->getUser()->getUsername();
 
         // on récupère l'uuid de l'utilisateur en cours
@@ -47,16 +48,15 @@ class ProjectController {
                 ->getModel('db\Db\PublicSchema\ProjectModel')
                 ->getProjectsInactive($uuid);
 
-
         return $app['twig']->render('projects.twig.html', array('projects' => $result, 'projectsinactive' => $result2, 'form' => $form->createView(), 'count' => count($result), 'colors' => array('blue' => '#7E70FA', 'red' => '#FA7080')));
     }
 
-    public function getProjectById(Request $request, Application $app, $id) {
+    public function getProjectById(Request $request, Application $app, $id)
+    {
         $result = $app['db']
                 ->getModel('db\Db\PublicSchema\FrameModel')
                 ->getFrameAndTags($id);
 
         return $app['twig']->render('frames.twig.html', array('frames' => $result));
     }
-
 }
