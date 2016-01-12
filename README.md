@@ -27,4 +27,23 @@ Each frame consists of the name of a project and some tags. Your tags can be sha
 
 # Installation
 
+## Composer
+
+To install dependencies, you have to use [Composer] (http://getcomposer.org)
+
+> composer install
+
+## Postgresql
+
+Crick uses postgresql, you have to install it and use crick's sql file here:
+
+> sources/sql/db.sql
+
+## Pomm
+
+If you update your database, please type this command in your terminal for create a new model
+
+> php vendor/bin/pomm.php pomm:generate:schema-all -d db -a 'Db' --psr4 db public
+
+
 ____
