@@ -12,6 +12,6 @@ $database_url = explode("//", $database_url);
 $database_url = "pgsql://" . $database_url[1]; 
 
 return new Pomm(['db' => [
-    'dsn' => getenv('DATABASE_URL') ?: 'pgsql://maxime:maxime@localhost:5432/green',
+    'dsn' => $database_url ?: 'pgsql://maxime:maxime@localhost:5432/green',
     'class:session_builder' => '\PommProject\ModelManager\SessionBuilder',
 ]]);
